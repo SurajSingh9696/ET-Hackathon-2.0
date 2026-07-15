@@ -50,6 +50,18 @@ export default function ClientApp() {
         {/* ─── Header ─────────────────────────────────────────────────── */}
         <header id="app-header">
           <div className="header-left">
+            {/* Hamburger — mobile only */}
+            <button
+              className="hamburger-btn"
+              id="hamburger-btn"
+              aria-label="Toggle navigation"
+              onClick={() => {
+                document.getElementById('sidebar')?.classList.toggle('open');
+                document.getElementById('sidebar-overlay')?.classList.toggle('visible');
+              }}
+            >
+              <span></span><span></span><span></span>
+            </button>
             <div className="logo">
               <div className="logo-icon">🌫️</div>
               <div>
@@ -58,7 +70,7 @@ export default function ClientApp() {
               </div>
             </div>
             <div className="header-divider"></div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <div className="header-coverage" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.8px' }}>Coverage</span>
               <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: 600 }}>7 Major Cities · 30 CAAQMS Stations</span>
             </div>
@@ -121,12 +133,22 @@ export default function ClientApp() {
               Satellite: Sentinel-5P · MODIS<br />
               AI: Groq LLaMA 3.3 70B
             </div>
-            <button className="groq-badge" id="groq-badge" onClick={() => (window as any).__showKeyModal && (window as any).__showKeyModal('sidebar')}>
+            <div className="groq-badge" id="groq-badge">
               <span className="groq-badge-dot"></span>
               <span id="groq-badge-label">Groq AI</span>
-            </button>
+            </div>
           </div>
         </aside>
+
+        {/* ─── Sidebar Overlay (mobile backdrop) ─────────────────────── */}
+        <div
+          id="sidebar-overlay"
+          className="sidebar-overlay"
+          onClick={() => {
+            document.getElementById('sidebar')?.classList.remove('open');
+            document.getElementById('sidebar-overlay')?.classList.remove('visible');
+          }}
+        />
 
         {/* ─── Main Content ────────────────────────────────────────────── */}
         <main id="app-main">
@@ -247,8 +269,8 @@ export default function ClientApp() {
                       <option value="pune">Pune</option>
                     </select>
                   </div>
-                  <div className="chart-wrap" style={{ paddingBottom: '8px' }}>
-                    <canvas id="pollutantChart" height="160"></canvas>
+                  <div className="chart-wrap" style={{ height: '160px', paddingBottom: '8px' }}>
+                    <canvas id="pollutantChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -303,7 +325,9 @@ export default function ClientApp() {
                     <div className="panel-title">Source Distribution — <span id="attr-city-label">Delhi</span></div>
                   </div>
                   <div className="source-chart-wrap">
-                    <canvas id="sourcePieChart" width="180" height="180" style={{ maxWidth: '180px' }}></canvas>
+                    <div style={{ height: '180px', width: '180px', margin: '0 auto' }}>
+                      <canvas id="sourcePieChart"></canvas>
+                    </div>
                   </div>
                   <div style={{ padding: '0 16px 14px', display: 'flex', flexDirection: 'column', gap: '6px' }} id="source-legend"></div>
                 </div>
@@ -387,7 +411,9 @@ export default function ClientApp() {
                     <div className="panel-subtitle">Predictive model + Open-Meteo weather fusion</div>
                   </div>
                   <div className="chart-wrap">
-                    <canvas id="forecastChart" height="220"></canvas>
+                    <div className="chart-wrap" style={{ height: '200px' }}>
+                      <canvas id="forecastChart"></canvas>
+                    </div>
                   </div>
                 </div>
                 <div className="glass-card">
@@ -396,7 +422,9 @@ export default function ClientApp() {
                     <div className="panel-subtitle">µg/m³ · WHO guideline: 15 µg/m³ (24h)</div>
                   </div>
                   <div className="chart-wrap">
-                    <canvas id="pm25ForecastChart" height="140"></canvas>
+                    <div className="chart-wrap" style={{ height: '130px' }}>
+                      <canvas id="pm25ForecastChart"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -560,7 +588,9 @@ export default function ClientApp() {
                   <div className="panel-subtitle">Click city list below to toggle</div>
                 </div>
                 <div className="comparison-chart-wrap">
-                  <canvas id="comparisonChart" height="200"></canvas>
+                  <div className="chart-wrap" style={{ height: '220px' }}>
+                    <canvas id="comparisonChart"></canvas>
+                  </div>
                 </div>
               </div>
 
@@ -586,7 +616,9 @@ export default function ClientApp() {
                     </select>
                   </div>
                   <div className="chart-wrap">
-                    <canvas id="radarChart" height="220"></canvas>
+                    <div className="chart-wrap" style={{ height: '220px' }}>
+                      <canvas id="radarChart"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -689,7 +721,9 @@ export default function ClientApp() {
                     <div className="panel-subtitle">Exposure risk by demographic</div>
                   </div>
                   <div className="chart-wrap">
-                    <canvas id="healthForecastChart" height="200"></canvas>
+                    <div className="chart-wrap" style={{ height: '200px' }}>
+                      <canvas id="healthForecastChart"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -948,6 +982,9 @@ async function bootApp() {
       btn.addEventListener('click', () => {
         const moduleId = (btn as HTMLElement).dataset.module;
         if (moduleId) showModule(moduleId);
+        // Close sidebar on mobile after nav
+        document.getElementById('sidebar')?.classList.remove('open');
+        document.getElementById('sidebar-overlay')?.classList.remove('visible');
       });
     });
   }
@@ -963,7 +1000,7 @@ async function bootApp() {
     const key = getGroqKey();
     if (badge) badge.textContent = key ? '✓ Groq AI Active' : 'Groq AI';
     const dot = document.querySelector('.groq-badge-dot') as HTMLElement;
-    if (dot) dot.style.background = key ? '#22c55e' : '#eab308';
+    if (dot) dot.style.background = key ? '#22c55e' : '#f97316';
   }
 
   // ─── AI Analyst Panel ──────────────────────────────────────────────────────
@@ -986,18 +1023,8 @@ async function bootApp() {
 
   (window as any).__refreshAIAnalyst = renderAIAnalystPanel;
 
-  // ─── Groq Key Management ───────────────────────────────────────────────────
-  (window as any).__showKeyModal = (context: string) => {
-    const key = prompt('Enter your Groq API key (get one free at console.groq.com):');
-    if (key && key.trim().startsWith('gsk_')) {
-      saveGroqKey(key.trim());
-      alert('✅ Groq API key saved! AI features are now active.');
-      onAirQualityUpdate();
-      if (context === 'dashboard') renderAIAnalystPanel();
-    } else if (key) {
-      alert('❌ Invalid key format. Groq keys start with "gsk_"');
-    }
-  };
+  // ─── Groq Key (env-var only, no runtime modal) ────────────────────────────
+  // Key is configured via NEXT_PUBLIC_GROQ_API_KEY in .env.local.
 
   // ─── Attribution Module ────────────────────────────────────────────────────
   function initAttributionModule() {
@@ -1527,12 +1554,12 @@ async function bootApp() {
     moduleInitialized['dashboard'] = true;
     initNavigation();
 
-    // Groq badge
+    // Groq badge — reflects env-var status
     const key = getGroqKey();
     const badge = document.getElementById('groq-badge-label');
-    if (badge) badge.textContent = key ? '✓ Groq AI Active' : 'Groq AI';
+    if (badge) badge.textContent = key ? '✓ Groq AI Active' : '⚠ Key Not Set';
     const dot = document.querySelector('.groq-badge-dot') as HTMLElement;
-    if (dot) dot.style.background = key ? '#22c55e' : '#eab308';
+    if (dot) dot.style.background = key ? '#22c55e' : '#f97316';
 
     // Auto AI analyst if key exists
     if (key) renderAIAnalystPanel();

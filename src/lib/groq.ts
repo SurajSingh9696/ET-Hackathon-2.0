@@ -1,10 +1,11 @@
-
-
 /**
- * groq.ts — Groq AI API calls (converted from ai.js)
+ * groq.ts — Groq AI API calls
+ *
+ * API key is read from the environment variable NEXT_PUBLIC_GROQ_API_KEY
+ * defined in .env.local. No localStorage or runtime prompts required.
  */
 
-import { CITIES, FORECAST_DATA } from './store';
+import { CITIES } from './store';
 import { getAQICat, ADVISORIES, getAdvisoryLevel } from './data';
 
 const AI_CONFIG = {
@@ -14,21 +15,23 @@ const AI_CONFIG = {
   TEMPERATURE: 0.7
 };
 
-// ─── Key Management ───────────────────────────────────────────────────────────
+// ─── Key Management — Environment Variable ────────────────────────────────────
+/**
+ * Returns the Groq API key from the NEXT_PUBLIC_GROQ_API_KEY environment
+ * variable. Returns null if the variable is not set or still has the
+ * placeholder value.
+ */
 export function getGroqKey(): string | null {
-  const stored = localStorage.getItem('airsense_groq_key');
-  return stored || null;
+  const key = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+  if (!key || key === 'your_groq_api_key_here' || !key.startsWith('gsk_')) return null;
+  return key;
 }
 
-export function saveGroqKey(key: string) {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem('airsense_groq_key', key.trim());
-}
+/** No-op — key is managed via .env.local, not runtime input. */
+export function saveGroqKey(_key: string) {}
 
-export function clearGroqKey() {
-  if (typeof window === 'undefined') return;
-  localStorage.removeItem('airsense_groq_key');
-}
+/** No-op — key is managed via .env.local, not runtime input. */
+export function clearGroqKey() {}
 
 // ─── Core Groq API Call ───────────────────────────────────────────────────────
 export async function askGroq(systemPrompt: string, userMessage: string, maxTokens = AI_CONFIG.MAX_TOKENS): Promise<string> {
@@ -192,14 +195,16 @@ export function buildThinkingUI(message: string, compact = false): string {
   `;
 }
 
-export function buildNoKeyPrompt(context: string): string {
+export function buildNoKeyPrompt(_context: string): string {
   return `
     <div class="ai-no-key-prompt">
-      <div style="font-size:32px;margin-bottom:8px;">🤖</div>
-      <div class="ai-no-key-title">AI Intelligence Available</div>
-      <div class="ai-no-key-desc">Connect your Groq API key to unlock AI-powered national analysis, smart advisories, and enforcement memos.</div>
-      <button class="ai-connect-btn" onclick="window.__showKeyModal('${context}')">🔑 Connect Groq AI</button>
-      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Free at console.groq.com</div>
+      <div style="font-size:32px;margin-bottom:8px;">🔑</div>
+      <div class="ai-no-key-title">Groq API Key Not Configured</div>
+      <div class="ai-no-key-desc">
+        Set <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:10px;">NEXT_PUBLIC_GROQ_API_KEY</code>
+        in your <strong>.env.local</strong> file and restart the dev server to enable AI features.
+      </div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Get a free key at console.groq.com</div>
     </div>
   `;
 }
@@ -210,10 +215,13 @@ export function buildErrorUI(message: string, retryFn: string): string {
     <div class="ai-error-state">
       <div style="font-size:20px;margin-bottom:6px;">${isNoKey ? '🔑' : '⚠️'}</div>
       <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">
-        ${isNoKey ? 'Groq API key required.' : `AI error: ${message}`}
+        ${isNoKey
+          ? 'API key not set. Add <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;">NEXT_PUBLIC_GROQ_API_KEY</code> to .env.local'
+          : `AI error: ${message}`
+        }
       </div>
       ${isNoKey
-        ? `<button class="ai-connect-btn" onclick="window.__showKeyModal('dashboard')" style="font-size:11px;padding:6px 14px;">Connect API Key</button>`
+        ? ''
         : `<button class="ai-refresh-btn" onclick="${retryFn}">↻ Retry</button>`
       }
     </div>

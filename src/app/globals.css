@@ -1955,8 +1955,353 @@ table.data-table tr:hover td { background: var(--bg-card-hover); color: var(--te
 .meteo-val { font-size: 18px; font-weight: 800; color: var(--accent); }
 .meteo-label { font-size: 10px; color: var(--text-muted); }
 
-/* ─── Accuracy block ─────────────────────────────────────────────────────── */
-.accuracy-block { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
-.accuracy-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-.accuracy-key { color: var(--text-muted); }
 .accuracy-val { color: var(--text-primary); font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Hamburger Button
+   ═══════════════════════════════════════════════════════════════════════════ */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+.hamburger-btn:hover { background: rgba(255,255,255,0.1); }
+.hamburger-btn span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text-secondary);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* Mobile sidebar overlay backdrop */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  z-index: 199;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.sidebar-overlay.visible {
+  display: block;
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Chart.js canvas: always fill container width
+   ═══════════════════════════════════════════════════════════════════════════ */
+canvas {
+  max-width: 100% !important;
+}
+.chart-wrap, .chart-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet  ≤ 900px
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  :root {
+    --sidebar-w: 240px;
+    --header-h: 56px;
+  }
+
+  /* ── App shell: sidebar hidden by default, slides in ── */
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main";
+  }
+
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 4px 0 40px rgba(0,0,0,0.6);
+  }
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .header-divider,
+  .header-coverage {
+    display: none;
+  }
+
+  /* ── Stats grid: 3 cols instead of 6 ── */
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* ── Dashboard layout: single column ── */
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* ── Attribution layout: single column ── */
+  .attribution-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* ── Forecast layout ── */
+  .forecast-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* ── Enforcement layout ── */
+  .enforcement-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* ── Comparison layout ── */
+  .comparison-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* ── Advisory layout ── */
+  .advisory-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  /* ── Map containers get a fixed height when stacked ── */
+  .map-container,
+  #attribution-map,
+  #enforcement-map {
+    min-height: 300px;
+    height: 300px;
+  }
+
+  /* ── Module padding ── */
+  .module { padding: 16px; }
+
+  /* ── Ticker: shorter on tablet ── */
+  .last-updated,
+  .refresh-countdown { display: none; }
+
+  /* ── AI chat drawer: full width ── */
+  .ai-chat-drawer {
+    width: 100% !important;
+    right: 0 !important;
+    left: 0 !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile  ≤ 600px
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  :root {
+    --header-h: 52px;
+    --sidebar-w: 280px;
+  }
+
+  /* ── Stats grid: 2 cols ── */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card { padding: 10px 12px; }
+  .stat-value { font-size: 20px; }
+
+  /* ── Module header: stack vertically ── */
+  .module-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .module-controls { width: 100%; }
+
+  .module-title { font-size: 16px; }
+
+  /* ── Map heights ── */
+  .map-container,
+  #attribution-map,
+  #enforcement-map {
+    min-height: 240px;
+    height: 240px;
+  }
+
+  /* ── Ticker: hide on very small screens ── */
+  .ticker-wrapper { display: none; }
+
+  /* ── Manual refresh btn: icon only ── */
+  .manual-refresh-btn { padding: 4px 8px; font-size: 12px; }
+
+  /* ── Module padding ── */
+  .module { padding: 12px; }
+
+  /* ── Glass cards stacked tighter ── */
+  .panel-header { padding: 10px 12px; }
+  .panel-title { font-size: 12px; }
+
+  /* ── Logo tagline hidden ── */
+  .logo-tagline { display: none; }
+
+  /* ── Header right: only live pill ── */
+  .header-right { gap: 8px; }
+
+  /* ── Comparison table: horizontal scroll ── */
+  .comparison-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.data-table { min-width: 520px; }
+
+  /* ── Forecast strips ── */
+  .forecast-strip-inner { gap: 6px; }
+  .forecast-hour-card { min-width: 70px; padding: 10px 8px; }
+
+  /* ── City panel in dashboard: collapse height ── */
+  .city-panel { gap: 8px; }
+
+  /* ── Ward risk rows ── */
+  .ward-risk-row { padding: 8px 10px; }
+
+  /* ── Source chart: smaller ── */
+  .source-chart-wrap canvas { max-height: 180px !important; }
+
+  /* ── Meteo grid: 2x2 ── */
+  .meteo-grid { grid-template-columns: 1fr 1fr; }
+
+  /* ── AI memo modal ── */
+  .ai-memo-modal-box {
+    margin: 10px;
+    max-height: 90vh;
+    width: calc(100vw - 20px);
+  }
+
+  /* ── Advisory mode buttons wrap ── */
+  .advisory-mode-btns { flex-wrap: wrap; gap: 4px; }
+
+  /* ── AI chat drawer ── */
+  .ai-chat-drawer {
+    bottom: 0;
+    top: auto !important;
+    border-radius: 18px 18px 0 0;
+    height: 72vh;
+    max-height: 72vh;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Chart containers: make Chart.js responsive
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Forecast chart wrap height adapts */
+.forecast-chart-section {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.forecast-chart-section canvas {
+  max-height: 200px;
+}
+
+/* Comparison chart height */
+.comparison-chart-wrap {
+  height: 220px;
+}
+
+/* Source attribution doughnut: constrain on small screens */
+.source-chart-wrap {
+  max-height: 260px;
+  overflow: hidden;
+}
+.source-chart-wrap canvas {
+  max-height: 220px !important;
+}
+
+/* Enforcement map section */
+.enforcement-top {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .enforcement-top {
+    grid-template-columns: 1fr;
+  }
+  .enforcement-top .map-panel {
+    min-height: 280px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Scrollbar polish for mobile
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* Thinner scrollbars on mobile */
+  *::-webkit-scrollbar { width: 3px; height: 3px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Allow body to scroll on mobile (modules are in-flow, not fixed-height) */
+  html, body { overflow: auto; height: auto; }
+  #app {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  #app-main {
+    overflow: visible;
+    height: auto;
+  }
+  .module {
+    position: static;
+    display: none;
+    opacity: 1;
+    transform: none;
+    overflow: visible;
+    min-height: auto;
+  }
+  .module.active {
+    display: block;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Touch targets (min 44px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav-item { padding: 12px 14px; min-height: 44px; }
+  .layer-btn { min-height: 36px; }
+  .advisory-mode-btn { min-height: 32px; padding: 6px 12px; }
+  .ai-chat-chip { min-height: 32px; }
+  select.select-control { min-height: 40px; }
+}

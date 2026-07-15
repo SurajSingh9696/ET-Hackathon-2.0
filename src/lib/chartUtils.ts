@@ -17,7 +17,7 @@ function setChartDefaults() {
 
 const CHART_DEFAULTS = {
   responsive: true,
-  maintainAspectRatio: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: { display: false },
     tooltip: {
@@ -220,7 +220,9 @@ export function initSourcePieChart(cityId: string) {
       }]
     },
     options: {
-      responsive: true, maintainAspectRatio: true, cutout: '62%',
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -317,7 +319,8 @@ export function initRadarChart(cityId: string) {
       }]
     },
     options: {
-      responsive: true, maintainAspectRatio: true,
+      responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
         tooltip: {
