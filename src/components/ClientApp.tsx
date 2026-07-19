@@ -150,6 +150,32 @@ export default function ClientApp() {
           }}
         />
 
+        {/* ─── Bottom Nav (mobile only) ────────────────────────────────────── */}
+        <nav id="bottom-nav">
+          <button className="nav-item bottom-nav-item active" data-module="dashboard">
+            <span className="bottom-nav-icon">🗺️</span>
+            <span className="bottom-nav-label">Live</span>
+          </button>
+          <button className="nav-item bottom-nav-item" data-module="attribution">
+            <span className="bottom-nav-icon">📍</span>
+            <span className="bottom-nav-label">Sources</span>
+          </button>
+          <button className="nav-item bottom-nav-item" data-module="forecast">
+            <span className="bottom-nav-icon">📈</span>
+            <span className="bottom-nav-label">Forecast</span>
+          </button>
+          <button className="nav-item bottom-nav-item" data-module="enforcement">
+            <span className="bottom-nav-icon">⚡</span>
+            <span className="bottom-nav-label">Enforce</span>
+            <span className="bottom-nav-badge" id="bottom-enforcement-badge">12</span>
+          </button>
+          <button className="nav-item bottom-nav-item" data-module="advisory">
+            <span className="bottom-nav-icon">🏥</span>
+            <span className="bottom-nav-label">Advisory</span>
+          </button>
+        </nav>
+
+
         {/* ─── Main Content ────────────────────────────────────────────── */}
         <main id="app-main">
 
