@@ -1204,29 +1204,24 @@ async function bootApp() {
     const listEl = document.getElementById('hotspot-list');
     if (!listEl) return;
     if (hotspots.length === 0) {
-      listEl.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><div>No hotspots match current filters</div></div>`;
+      listEl.innerHTML = `<div style="padding:24px;text-align:center;color:var(--t3);font-size:12px;">🔍 No hotspots match current filters</div>`;
       return;
     }
     listEl.innerHTML = hotspots.map((h, i) => {
       const cat = getAQICat(h.aqi);
-      const priorityColors: any = { Critical: '#ef4444', High: '#f97316', Medium: '#eab308' };
-      const pColor = priorityColors[h.priority] || '#eab308';
-      const statusClass = h.status === 'Active' ? 'active' : h.status === 'Monitoring' ? 'monitoring' : 'review';
-      return `<div class="hotspot-row" data-id="${h.id}">
+      const pClass = h.priority.toLowerCase();
+      return `<div class="hotspot-item ${pClass}" data-id="${h.id}" onclick="window.__generateEnfMemo('${h.id}')">
         <div class="hotspot-rank">${i + 1}</div>
-        <div style="width:3px;height:36px;background:${pColor};border-radius:2px;flex-shrink:0;"></div>
         <div class="hotspot-info">
           <div class="hotspot-name">${h.sourceIcon} ${h.name}</div>
-          <div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
-            <span class="priority-badge ${h.priority.toLowerCase()}">${h.priority}</span>
-            <span class="status-badge ${statusClass}">${h.status}</span>
-            <span style="font-size:10px;color:var(--text-muted);">${h.sourceType}</span>
+          <div class="hotspot-meta">
+            <span class="hotspot-source-tag">${h.sourceType}</span>
+            <span class="hotspot-location">${h.status} · ${h.violations} violations</span>
           </div>
         </div>
-        <div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+        <div class="hotspot-right">
           <div class="hotspot-aqi" style="color:${cat.color};">${h.aqi}</div>
-          <div style="font-size:10px;color:var(--text-muted);">${h.violations} violations</div>
-          <button class="ai-memo-trigger-btn" onclick="window.__generateEnfMemo('${h.id}')">🤖 AI Memo</button>
+          <div class="hotspot-priority ${pClass}">${h.priority}</div>
         </div>
       </div>`;
     }).join('');

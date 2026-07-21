@@ -8,18 +8,11 @@
 *ET Hackathon 2026 — Project Presentation*
 
 <br/>
-
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org/)
-[![Groq AI](https://img.shields.io/badge/Groq-LLaMA_3.3_70B-f97316?style=for-the-badge)](https://groq.com/)
-[![Open-Meteo](https://img.shields.io/badge/Open--Meteo-Live_API-38bdf8?style=for-the-badge)](https://open-meteo.com/)
-[![CPCB](https://img.shields.io/badge/CPCB-CAAQMS-22c55e?style=for-the-badge)](https://cpcb.nic.in/)
-
 <br/>
 
-| 🌐 **Live Deployment** | 💻 **Source Code** |
-|:---:|:---:|
-| *(Insert Deployed Link Here)* | *(Insert GitHub Link Here)* |
+| 🌐 **Live Deployment** |
+|:---:|
+| https://urban-air-quality-intelligence-plat.vercel.app/ |
 
 ---
 
@@ -726,7 +719,7 @@ Tomorrow: 700 cities  |  13,000 stations  |  ∞ insights  |  All of India
 
 | 🌐 Live App | 💻 GitHub |
 |:---:|:---:|
-| *(Insert Deployed Link)* | *(Insert GitHub Link)* |
+| https://urban-air-quality-intelligence-plat.vercel.app/ | https://github.com/SurajSingh9696/ET-Hackathon-2.0 |
 
 <br/>
 
