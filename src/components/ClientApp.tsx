@@ -1,6 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { INITIAL_CITIES, STATIONS as INITIAL_STATIONS } from '@/lib/data';
+
+const CITY_SELECT_OPTIONS = INITIAL_CITIES.map(({ id, name }) => ({ id, name }));
+const CITY_COUNT_LABEL = `${INITIAL_CITIES.length} Major Cities · ${INITIAL_STATIONS.length} CAAQMS Stations`;
+const ACTIVE_STATION_COUNT = INITIAL_CITIES.reduce((sum, city) => sum + city.activeStations, 0);
+const TOTAL_STATION_COUNT = INITIAL_CITIES.reduce((sum, city) => sum + city.stations, 0);
+const DEFAULT_COMPARISON_CITY_IDS = INITIAL_CITIES.slice(0, 5).map(city => city.id);
 
 /**
  * ClientApp.tsx
@@ -72,7 +79,7 @@ export default function ClientApp() {
             <div className="header-divider"></div>
             <div className="header-coverage" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.8px' }}>Coverage</span>
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: 600 }}>7 Major Cities · 30 CAAQMS Stations</span>
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary)', fontWeight: 600 }}>{CITY_COUNT_LABEL}</span>
             </div>
           </div>
 
@@ -204,27 +211,27 @@ export default function ClientApp() {
               </div>
               <div className="stat-card danger">
                 <div className="stat-label">Critical Cities</div>
-                <div className="stat-value" style={{ color: '#ef4444' }}>2</div>
+                <div className="stat-value" style={{ color: '#ef4444' }} id="stat-critical-cities">—</div>
                 <div className="stat-meta">AQI &gt; 300 threshold</div>
               </div>
               <div className="stat-card warning">
                 <div className="stat-label">Poor Air Cities</div>
-                <div className="stat-value" style={{ color: '#f97316' }}>4</div>
+                <div className="stat-value" style={{ color: '#f97316' }} id="stat-poor-cities">—</div>
                 <div className="stat-meta">AQI 201–300</div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Active Stations</div>
-                <div className="stat-value">121</div>
-                <div className="stat-meta">of 133 total</div>
+                <div className="stat-value" id="stat-active-stations">{ACTIVE_STATION_COUNT}</div>
+                <div className="stat-meta" id="stat-total-stations">of {TOTAL_STATION_COUNT} total</div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Avg PM2.5</div>
-                <div className="stat-value" style={{ color: '#f97316' }}>93</div>
+                <div className="stat-value" style={{ color: '#f97316' }} id="stat-avg-pm25">—</div>
                 <div className="stat-meta">µg/m³ · WHO limit: 5</div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Population at Risk</div>
-                <div className="stat-value" style={{ color: '#9333ea' }}>68M</div>
+                <div className="stat-value" style={{ color: '#9333ea' }} id="stat-risk-pop">—</div>
                 <div className="stat-meta">AQI &gt; 200 exposure</div>
               </div>
             </div>
@@ -286,13 +293,7 @@ export default function ClientApp() {
                   <div className="panel-header">
                     <div className="panel-title">📊 Pollutant Breakdown</div>
                     <select className="select-control" id="pollutant-city-select" style={{ fontSize: '11px', padding: '4px 28px 4px 8px' }}>
-                      <option value="delhi">Delhi</option>
-                      <option value="mumbai">Mumbai</option>
-                      <option value="kolkata">Kolkata</option>
-                      <option value="bengaluru">Bengaluru</option>
-                      <option value="chennai">Chennai</option>
-                      <option value="hyderabad">Hyderabad</option>
-                      <option value="pune">Pune</option>
+                      {CITY_SELECT_OPTIONS.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
                     </select>
                   </div>
                   <div className="chart-wrap" style={{ height: '160px', paddingBottom: '8px' }}>
@@ -315,13 +316,7 @@ export default function ClientApp() {
               </div>
               <div className="module-controls">
                 <select className="select-control" id="attribution-city-select">
-                  <option value="delhi">Delhi</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="kolkata">Kolkata</option>
-                  <option value="bengaluru">Bengaluru</option>
-                  <option value="chennai">Chennai</option>
-                  <option value="hyderabad">Hyderabad</option>
-                  <option value="pune">Pune</option>
+                  {CITY_SELECT_OPTIONS.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
                 </select>
               </div>
             </div>
@@ -390,13 +385,7 @@ export default function ClientApp() {
               </div>
               <div className="module-controls">
                 <select className="select-control" id="forecast-city-select">
-                  <option value="delhi">Delhi</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="kolkata">Kolkata</option>
-                  <option value="bengaluru">Bengaluru</option>
-                  <option value="chennai">Chennai</option>
-                  <option value="hyderabad">Hyderabad</option>
-                  <option value="pune">Pune</option>
+                  {CITY_SELECT_OPTIONS.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
                 </select>
                 <div className="toggle-group">
                   {[['24','24h'],['48','48h'],['72','72h']].map(([val, label], i) => (
@@ -513,13 +502,7 @@ export default function ClientApp() {
               <div className="module-controls">
                 <select className="select-control" id="enforcement-city-select">
                   <option value="all">All Cities</option>
-                  <option value="delhi">Delhi</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="kolkata">Kolkata</option>
-                  <option value="bengaluru">Bengaluru</option>
-                  <option value="chennai">Chennai</option>
-                  <option value="hyderabad">Hyderabad</option>
-                  <option value="pune">Pune</option>
+                  {CITY_SELECT_OPTIONS.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
                 </select>
                 <select className="select-control" id="enforcement-priority-select">
                   <option value="all">All Priorities</option>
@@ -632,13 +615,7 @@ export default function ClientApp() {
                   <div className="panel-header">
                     <div className="panel-title">Radar Profile</div>
                     <select className="select-control" id="radar-city-select" style={{ fontSize: '11px', padding: '4px 28px 4px 8px' }}>
-                      <option value="delhi">Delhi</option>
-                      <option value="mumbai">Mumbai</option>
-                      <option value="kolkata">Kolkata</option>
-                      <option value="bengaluru">Bengaluru</option>
-                      <option value="chennai">Chennai</option>
-                      <option value="hyderabad">Hyderabad</option>
-                      <option value="pune">Pune</option>
+                      {CITY_SELECT_OPTIONS.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
                     </select>
                   </div>
                   <div className="chart-wrap">
@@ -679,13 +656,7 @@ export default function ClientApp() {
               </div>
               <div className="module-controls">
                 <select className="select-control" id="advisory-city-select">
-                  <option value="delhi">Delhi</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="kolkata">Kolkata</option>
-                  <option value="bengaluru">Bengaluru</option>
-                  <option value="chennai">Chennai</option>
-                  <option value="hyderabad">Hyderabad</option>
-                  <option value="pune">Pune</option>
+                  {CITY_SELECT_OPTIONS.map(city => <option key={city.id} value={city.id}>{city.name}</option>)}
                 </select>
                 <div style={{ display: 'flex', gap: '6px' }}>
                   <button className="advisory-mode-btn active" id="advisory-mode-static" onClick={() => (window as any).__setAdvisoryMode && (window as any).__setAdvisoryMode('static')}>📋 Static</button>
@@ -842,7 +813,7 @@ async function bootApp() {
   // ─── State ─────────────────────────────────────────────────────────────────
   let currentModule = 'dashboard';
   const moduleInitialized: Record<string, boolean> = {};
-  let selectedComparisonCities = ['delhi', 'mumbai', 'kolkata', 'bengaluru', 'chennai'];
+  let selectedComparisonCities = [...DEFAULT_COMPARISON_CITY_IDS];
   let comparisonMetric = 'aqi';
   let advisoryLang = 'english';
   let advisoryCityId = 'delhi';
@@ -950,6 +921,26 @@ async function bootApp() {
     const avgAqi = Math.round(CITIES.reduce((s, c) => s + c.aqi, 0) / CITIES.length);
     const natEl = document.getElementById('stat-nat-aqi');
     if (natEl) { const cat = getAQICat(avgAqi); natEl.textContent = String(avgAqi); natEl.style.color = cat.color; }
+    const criticalEl = document.getElementById('stat-critical-cities');
+    const poorEl = document.getElementById('stat-poor-cities');
+    const activeEl = document.getElementById('stat-active-stations');
+    const totalEl = document.getElementById('stat-total-stations');
+    const pm25El = document.getElementById('stat-avg-pm25');
+    const riskPopEl = document.getElementById('stat-risk-pop');
+    const criticalCities = CITIES.filter(c => c.aqi > 300).length;
+    const poorCities = CITIES.filter(c => c.aqi >= 201 && c.aqi <= 300).length;
+    const activeStations = CITIES.reduce((s, c) => s + (c.activeStations || 0), 0);
+    const totalStations = CITIES.reduce((s, c) => s + (c.stations || 0), 0);
+    const avgPm25 = Math.round(CITIES.reduce((s, c) => s + (c.pm25 || 0), 0) / CITIES.length);
+    const riskPopulation = CITIES
+      .filter(c => c.aqi > 200)
+      .reduce((s, c) => s + (c.population || 0), 0);
+    if (criticalEl) criticalEl.textContent = String(criticalCities);
+    if (poorEl) poorEl.textContent = String(poorCities);
+    if (activeEl) activeEl.textContent = String(activeStations);
+    if (totalEl) totalEl.textContent = `of ${totalStations} total`;
+    if (pm25El) pm25El.textContent = String(avgPm25);
+    if (riskPopEl) riskPopEl.textContent = `${Math.round(riskPopulation / 1000000)}M`;
     const trendEl = document.getElementById('stat-nat-trend');
     if (trendEl) {
       const avgTrend = Math.round(CITIES.reduce((s, c) => s + (c.trend || 0), 0) / CITIES.length);
@@ -1285,7 +1276,7 @@ async function bootApp() {
 
   // ─── Comparison Module ─────────────────────────────────────────────────────
   function initComparisonModule() {
-    selectedComparisonCities = ['delhi', 'mumbai', 'kolkata', 'bengaluru', 'chennai'];
+    selectedComparisonCities = [...DEFAULT_COMPARISON_CITY_IDS];
     comparisonMetric = 'aqi';
     const aqiBtn = document.getElementById('view-aqi-btn');
     const pm25Btn = document.getElementById('view-pm25-btn');

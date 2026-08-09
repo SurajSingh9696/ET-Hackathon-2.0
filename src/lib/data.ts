@@ -20,7 +20,9 @@ export const INITIAL_CITIES = [
   { id: 'bengaluru', name: 'Bengaluru', state: 'Karnataka', coords: [12.9716, 77.5946] as [number,number], aqi: 98, pm25: 52.3, pm10: 87.4, no2: 45.8, so2: 12.3, o3: 48.6, co: 5.4, trend: -3, population: 12765000, area: 741, stations: 16, activeStations: 14 },
   { id: 'chennai', name: 'Chennai', state: 'Tamil Nadu', coords: [13.0827, 80.2707] as [number,number], aqi: 112, pm25: 64.7, pm10: 98.3, no2: 52.4, so2: 16.7, o3: 43.2, co: 6.8, trend: +2, population: 10971108, area: 1189, stations: 14, activeStations: 13 },
   { id: 'hyderabad', name: 'Hyderabad', state: 'Telangana', coords: [17.3850, 78.4867] as [number,number], aqi: 134, pm25: 78.4, pm10: 124.6, no2: 58.3, so2: 21.4, o3: 46.7, co: 7.6, trend: -8, population: 10006000, area: 650, stations: 12, activeStations: 11 },
-  { id: 'pune', name: 'Pune', state: 'Maharashtra', coords: [18.5204, 73.8567] as [number,number], aqi: 108, pm25: 61.2, pm10: 94.7, no2: 48.6, so2: 14.8, o3: 51.2, co: 6.2, trend: +4, population: 7700000, area: 518, stations: 10, activeStations: 9 }
+  { id: 'pune', name: 'Pune', state: 'Maharashtra', coords: [18.5204, 73.8567] as [number,number], aqi: 108, pm25: 61.2, pm10: 94.7, no2: 48.6, so2: 14.8, o3: 51.2, co: 6.2, trend: +4, population: 7700000, area: 518, stations: 10, activeStations: 9 },
+  { id: 'lucknow', name: 'Lucknow', state: 'Uttar Pradesh', coords: [26.8467, 80.9462] as [number,number], aqi: 174, pm25: 103.6, pm10: 169.4, no2: 62.8, so2: 24.1, o3: 42.6, co: 8.9, trend: +9, population: 3765000, area: 631, stations: 9, activeStations: 8 },
+  { id: 'kanpur', name: 'Kanpur', state: 'Uttar Pradesh', coords: [26.4499, 80.3319] as [number,number], aqi: 203, pm25: 128.7, pm10: 214.8, no2: 71.5, so2: 31.2, o3: 39.8, co: 10.6, trend: +14, population: 3228000, area: 403, stations: 8, activeStations: 7 }
 ];
 
 export const STATIONS = [
@@ -53,7 +55,13 @@ export const STATIONS = [
   { id: 's27', city: 'hyderabad', name: 'Bollaram', coords: [17.4900, 78.3800] as [number,number], aqi: 118, pm25: 68.4, pm10: 108.6 },
   { id: 's28', city: 'pune', name: 'Hadapsar', coords: [18.5089, 73.9258] as [number,number], aqi: 124, pm25: 72.6, pm10: 112.4 },
   { id: 's29', city: 'pune', name: 'Pimpri', coords: [18.6298, 73.7997] as [number,number], aqi: 132, pm25: 76.8, pm10: 118.6 },
-  { id: 's30', city: 'pune', name: 'Shivajinagar', coords: [18.5308, 73.8474] as [number,number], aqi: 94, pm25: 52.4, pm10: 84.2 }
+  { id: 's30', city: 'pune', name: 'Shivajinagar', coords: [18.5308, 73.8474] as [number,number], aqi: 94, pm25: 52.4, pm10: 84.2 },
+  { id: 's31', city: 'lucknow', name: 'Lalbagh', coords: [26.8500, 80.9450] as [number,number], aqi: 186, pm25: 112.4, pm10: 176.8 },
+  { id: 's32', city: 'lucknow', name: 'Aliganj', coords: [26.8920, 80.9430] as [number,number], aqi: 164, pm25: 96.2, pm10: 158.4 },
+  { id: 's33', city: 'lucknow', name: 'Gomti Nagar', coords: [26.8525, 81.0207] as [number,number], aqi: 152, pm25: 88.6, pm10: 146.2 },
+  { id: 's34', city: 'kanpur', name: 'Nehru Nagar', coords: [26.4761, 80.3173] as [number,number], aqi: 218, pm25: 139.4, pm10: 226.7 },
+  { id: 's35', city: 'kanpur', name: 'Kidwai Nagar', coords: [26.4287, 80.3357] as [number,number], aqi: 196, pm25: 121.8, pm10: 204.3 },
+  { id: 's36', city: 'kanpur', name: 'Panki', coords: [26.4705, 80.2367] as [number,number], aqi: 232, pm25: 148.6, pm10: 241.9 }
 ];
 
 export function seededRandom(seed: number) {
@@ -242,6 +250,38 @@ export const SOURCE_ATTRIBUTION: Record<string, any> = {
       { name: 'Chinchwad', aqi: 118, topSource: 'Industrial', contribution: 42, confidence: 82 },
       { name: 'Katraj', aqi: 108, topSource: 'Vehicles', contribution: 46, confidence: 83 }
     ]
+  },
+  lucknow: {
+    sources: [
+      { name: 'Vehicles & Traffic', value: 41, color: '#ef4444' },
+      { name: 'Road Dust', value: 24, color: '#eab308' },
+      { name: 'Construction Dust', value: 18, color: '#f97316' },
+      { name: 'Waste Burning', value: 10, color: '#9333ea' },
+      { name: 'Other', value: 7, color: '#6366f1' }
+    ],
+    wards: [
+      { name: 'Lalbagh', aqi: 186, topSource: 'Vehicles', contribution: 46, confidence: 87 },
+      { name: 'Aliganj', aqi: 164, topSource: 'Road Dust', contribution: 38, confidence: 82 },
+      { name: 'Gomti Nagar', aqi: 152, topSource: 'Vehicles', contribution: 42, confidence: 84 },
+      { name: 'Aminabad', aqi: 178, topSource: 'Traffic', contribution: 48, confidence: 85 },
+      { name: 'Charbagh', aqi: 192, topSource: 'Vehicles', contribution: 51, confidence: 88 }
+    ]
+  },
+  kanpur: {
+    sources: [
+      { name: 'Industrial Stacks', value: 34, color: '#f97316' },
+      { name: 'Vehicles & Traffic', value: 28, color: '#ef4444' },
+      { name: 'Road Dust', value: 20, color: '#eab308' },
+      { name: 'Waste Burning', value: 11, color: '#9333ea' },
+      { name: 'Other', value: 7, color: '#6366f1' }
+    ],
+    wards: [
+      { name: 'Panki', aqi: 232, topSource: 'Industrial', contribution: 48, confidence: 88 },
+      { name: 'Nehru Nagar', aqi: 218, topSource: 'Industrial', contribution: 44, confidence: 86 },
+      { name: 'Kidwai Nagar', aqi: 196, topSource: 'Vehicles', contribution: 40, confidence: 83 },
+      { name: 'Jajmau', aqi: 226, topSource: 'Industrial', contribution: 52, confidence: 90 },
+      { name: 'Kalyanpur', aqi: 184, topSource: 'Road Dust', contribution: 36, confidence: 81 }
+    ]
   }
 };
 
@@ -257,7 +297,11 @@ export const ENFORCEMENT_HOTSPOTS = [
   { id: 'e9', city: 'kolkata', name: 'Belgachia Waste Site', coords: [22.6034, 88.3728] as [number,number], sourceType: 'Waste Burning', sourceIcon: '🔥', priority: 'Critical', aqi: 246, status: 'Active', action: 'Immediate stop-work order & FIR', assignedTo: 'KMC Enforcement', dueDate: '2026-07-09', registered: false, violations: 3, lastInspected: '2026-07-05' },
   { id: 'e10', city: 'chennai', name: 'Manali Refinery Zone', coords: [13.1728, 80.2560] as [number,number], sourceType: 'Industrial Emission', sourceIcon: '🏭', priority: 'Critical', aqi: 142, status: 'Active', action: 'Emergency stack audit — TNPCB directive', assignedTo: 'TNPCB Team A', dueDate: '2026-07-10', registered: true, violations: 16, lastInspected: '2026-06-20' },
   { id: 'e11', city: 'bengaluru', name: 'Peenya Industrial Estate', coords: [13.0244, 77.5183] as [number,number], sourceType: 'Industrial Emission', sourceIcon: '🏭', priority: 'Medium', aqi: 132, status: 'Monitoring', action: 'Scheduled quarterly inspection', assignedTo: 'KSPCB Team', dueDate: '2026-07-20', registered: true, violations: 4, lastInspected: '2026-07-01' },
-  { id: 'e12', city: 'hyderabad', name: 'Nacharam MIDC', coords: [17.4062, 78.5567] as [number,number], sourceType: 'Industrial Emission', sourceIcon: '🏭', priority: 'High', aqi: 156, status: 'Active', action: 'Stack emission parameter verification', assignedTo: 'TSPCB Team', dueDate: '2026-07-13', registered: true, violations: 8, lastInspected: '2026-06-26' }
+  { id: 'e12', city: 'hyderabad', name: 'Nacharam MIDC', coords: [17.4062, 78.5567] as [number,number], sourceType: 'Industrial Emission', sourceIcon: '🏭', priority: 'High', aqi: 156, status: 'Active', action: 'Stack emission parameter verification', assignedTo: 'TSPCB Team', dueDate: '2026-07-13', registered: true, violations: 8, lastInspected: '2026-06-26' },
+  { id: 'e13', city: 'lucknow', name: 'Charbagh Transit Corridor', coords: [26.8316, 80.9212] as [number,number], sourceType: 'Vehicle Emissions', sourceIcon: '🚌', priority: 'High', aqi: 192, status: 'Active', action: 'Deploy traffic-flow intervention and anti-idling enforcement', assignedTo: 'UPPCB Lucknow Cell', dueDate: '2026-07-14', registered: true, violations: 6, lastInspected: '2026-07-03' },
+  { id: 'e14', city: 'lucknow', name: 'Aminabad Market Cluster', coords: [26.8492, 80.9234] as [number,number], sourceType: 'Construction Dust', sourceIcon: '🏗️', priority: 'Medium', aqi: 178, status: 'Monitoring', action: 'Audit road dust suppression and material covering', assignedTo: 'LMC Enforcement', dueDate: '2026-07-18', registered: false, violations: 4, lastInspected: '2026-07-05' },
+  { id: 'e15', city: 'kanpur', name: 'Panki Industrial Area', coords: [26.4705, 80.2367] as [number,number], sourceType: 'Industrial Emission', sourceIcon: '🏭', priority: 'Critical', aqi: 232, status: 'Active', action: 'Conduct emergency stack emission audit and fuel-use verification', assignedTo: 'UPPCB Kanpur Team', dueDate: '2026-07-11', registered: true, violations: 13, lastInspected: '2026-06-29' },
+  { id: 'e16', city: 'kanpur', name: 'Jajmau Leather Cluster', coords: [26.4250, 80.4028] as [number,number], sourceType: 'Industrial Emission', sourceIcon: '🏭', priority: 'High', aqi: 226, status: 'Under Review', action: 'Verify stack controls and issue compliance notices', assignedTo: 'CPCB Field Unit', dueDate: '2026-07-13', registered: true, violations: 10, lastInspected: '2026-07-01' }
 ];
 
 export const WARDS_VULNERABILITY: Record<string, any[]> = {
@@ -269,6 +313,20 @@ export const WARDS_VULNERABILITY: Record<string, any[]> = {
     { name: 'Punjabi Bagh', aqi: 224, hospitals: 5, schools: 9, elderlyPct: 16, outdoorWorkers: 980, risk: 'High' },
     { name: 'Dwarka', aqi: 198, hospitals: 3, schools: 14, elderlyPct: 12, outdoorWorkers: 1100, risk: 'High' },
     { name: 'Lodhi Road', aqi: 178, hospitals: 6, schools: 7, elderlyPct: 13, outdoorWorkers: 640, risk: 'Moderate' }
+  ],
+  lucknow: [
+    { name: 'Charbagh', aqi: 192, hospitals: 3, schools: 9, elderlyPct: 11, outdoorWorkers: 1700, risk: 'High' },
+    { name: 'Lalbagh', aqi: 186, hospitals: 4, schools: 7, elderlyPct: 13, outdoorWorkers: 1200, risk: 'High' },
+    { name: 'Aminabad', aqi: 178, hospitals: 2, schools: 6, elderlyPct: 12, outdoorWorkers: 1900, risk: 'High' },
+    { name: 'Aliganj', aqi: 164, hospitals: 5, schools: 11, elderlyPct: 15, outdoorWorkers: 900, risk: 'High' },
+    { name: 'Gomti Nagar', aqi: 152, hospitals: 6, schools: 13, elderlyPct: 10, outdoorWorkers: 820, risk: 'High' }
+  ],
+  kanpur: [
+    { name: 'Panki', aqi: 232, hospitals: 2, schools: 5, elderlyPct: 10, outdoorWorkers: 2100, risk: 'Very High' },
+    { name: 'Jajmau', aqi: 226, hospitals: 2, schools: 6, elderlyPct: 9, outdoorWorkers: 2600, risk: 'Very High' },
+    { name: 'Nehru Nagar', aqi: 218, hospitals: 4, schools: 8, elderlyPct: 12, outdoorWorkers: 1400, risk: 'Very High' },
+    { name: 'Kidwai Nagar', aqi: 196, hospitals: 5, schools: 10, elderlyPct: 14, outdoorWorkers: 1100, risk: 'High' },
+    { name: 'Kalyanpur', aqi: 184, hospitals: 3, schools: 12, elderlyPct: 11, outdoorWorkers: 950, risk: 'High' }
   ]
 };
 
@@ -306,4 +364,4 @@ export function getAdvisoryLevel(aqi: number) {
   return 'moderate';
 }
 
-export const CITY_COLORS_CHART = ['#00d4b8', '#6366f1', '#f59e0b', '#22c55e', '#ef4444', '#ec4899', '#0ea5e9'];
+export const CITY_COLORS_CHART = ['#38bdf8', '#14b8a6', '#f59e0b', '#22c55e', '#ef4444', '#8b5cf6', '#0ea5e9', '#06b6d4', '#facc15'];

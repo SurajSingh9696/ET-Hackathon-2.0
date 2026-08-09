@@ -24,7 +24,9 @@ export const CITY_COORDS: Record<string, { lat: number; lon: number }> = {
   bengaluru: { lat: 12.9716, lon: 77.5946 },
   chennai:   { lat: 13.0827, lon: 80.2707 },
   hyderabad: { lat: 17.3850, lon: 78.4867 },
-  pune:      { lat: 18.5204, lon: 73.8567 }
+  pune:      { lat: 18.5204, lon: 73.8567 },
+  lucknow:   { lat: 26.8467, lon: 80.9462 },
+  kanpur:    { lat: 26.4499, lon: 80.3319 }
 };
 
 // ─── AQI Computation (CPCB Standard) ─────────────────────────────────────────

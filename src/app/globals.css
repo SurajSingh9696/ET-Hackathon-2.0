@@ -16,27 +16,29 @@ input,select,textarea{font-family:inherit}
 /* ─── Design Tokens ──────────────────────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --bg:         #05091a;
-  --bg2:        #0b1428;
-  --bg3:        #101f3a;
-  --card:       rgba(16,32,68,0.60);
-  --card-h:     rgba(20,42,85,0.75);
-  --elevated:   rgba(25,50,100,0.50);
+  --bg:         #07131f;
+  --bg2:        #0c1e2d;
+  --bg3:        #123047;
+  --card:       rgba(18,48,71,0.62);
+  --card-h:     rgba(27,69,96,0.76);
+  --elevated:   rgba(34,82,112,0.52);
 
   /* Borders */
-  --b1: rgba(56,189,248,0.12);
-  --b2: rgba(56,189,248,0.20);
-  --b3: rgba(56,189,248,0.32);
+  --b1: rgba(125,211,252,0.16);
+  --b2: rgba(125,211,252,0.26);
+  --b3: rgba(125,211,252,0.40);
 
-  /* Accent – Sky Blue */
-  --sky:      #38bdf8;
-  --sky-dim:  rgba(56,189,248,0.12);
-  --sky-glow: rgba(56,189,248,0.28);
-  --sky-deep: #0ea5e9;
+  /* Accent - Weather Sky */
+  --sky:      #7dd3fc;
+  --sky-dim:  rgba(125,211,252,0.14);
+  --sky-glow: rgba(125,211,252,0.30);
+  --sky-deep: #0891b2;
 
-  /* Accent-2 – Indigo (AI) */
-  --indigo:     #818cf8;
-  --indigo-dim: rgba(129,140,248,0.14);
+  /* Accent-2 - Cloud Teal */
+  --indigo:     #5eead4;
+  --indigo-dim: rgba(94,234,212,0.13);
+  --sun:        #fde68a;
+  --sun-dim:    rgba(253,230,138,0.15);
 
   /* Status */
   --green:      #4ade80;
@@ -59,15 +61,21 @@ input,select,textarea{font-family:inherit}
   --c-sev:    #c084fc;
 
   /* Text */
-  --t1: #e8f4fd;
-  --t2: #94b8d1;
-  --t3: #4d7a99;
+  --t1: #effaff;
+  --t2: #b7d4e5;
+  --t3: #6f9bb8;
+  --text-primary: var(--t1);
+  --text-secondary: var(--t2);
+  --text-muted: var(--t3);
+  --bg-secondary: rgba(15,44,65,0.72);
+  --accent: var(--sky);
+  --radius-lg: var(--r2);
 
   /* Shadows */
   --sh1: 0 2px 8px rgba(0,0,0,0.45);
   --sh2: 0 4px 24px rgba(0,0,0,0.55);
   --sh3: 0 8px 48px rgba(0,0,0,0.65);
-  --sh-sky: 0 0 32px rgba(56,189,248,0.14);
+  --sh-sky: 0 0 32px rgba(125,211,252,0.16);
 
   /* Radius */
   --r:  10px;
@@ -88,7 +96,8 @@ input,select,textarea{font-family:inherit}
 html,body{height:100%}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--bg);
+  background:
+    linear-gradient(180deg,#07131f 0%,#0c1e2d 48%,#102c3e 100%);
   color:var(--t1);
   font-size:14px;
   line-height:1.5;
@@ -108,7 +117,7 @@ body{
    ═══════════════════════════════════════════════════════════════════════════ */
 #loader{
   position:fixed;inset:0;
-  background:var(--bg);
+  background:linear-gradient(180deg,#06111d 0%,#0c2233 100%);
   display:flex;align-items:center;justify-content:center;
   z-index:9999;
   transition:opacity .6s ease;
@@ -134,7 +143,7 @@ body{
 .loader-bar-track{height:3px;background:var(--b1);border-radius:2px;overflow:hidden;margin-bottom:14px}
 .loader-bar-fill{
   height:100%;
-  background:linear-gradient(90deg,var(--sky),var(--indigo));
+  background:linear-gradient(90deg,var(--sky),var(--indigo),var(--sun));
   width:0;
   animation:loadFill 2.2s cubic-bezier(.4,0,.2,1) forwards;
 }
@@ -157,7 +166,7 @@ body{
 #app-header{
   grid-area:header;
   position:relative;z-index:100;
-  background:rgba(5,9,26,.96);
+  background:rgba(7,19,31,.94);
   border-bottom:1px solid var(--b1);
   backdrop-filter:blur(20px);
   display:flex;align-items:center;gap:10px;
@@ -229,7 +238,7 @@ body{
 #sidebar{
   position:fixed;left:0;top:0;bottom:0;
   width:var(--sw);z-index:200;
-  background:rgba(7,12,28,.98);
+  background:rgba(8,24,37,.97);
   border-right:1px solid var(--b1);
   backdrop-filter:blur(24px);
   display:flex;flex-direction:column;
@@ -295,7 +304,7 @@ body{
 #bottom-nav{
   display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150;
   height:var(--bnh);
-  background:rgba(7,12,28,.97);border-top:1px solid var(--b1);
+  background:rgba(8,24,37,.96);border-top:1px solid var(--b1);
   backdrop-filter:blur(20px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -360,6 +369,7 @@ body{
   border:1px solid var(--b1);
   border-radius:var(--r2);
   backdrop-filter:blur(12px);
+  box-shadow:0 16px 40px rgba(2,12,22,.20);
   transition:border-color .2s ease;
   overflow:hidden;
 }
@@ -415,8 +425,8 @@ body{
    BUTTONS & CONTROLS
    ═══════════════════════════════════════════════════════════════════════════ */
 .btn-primary{
-  background:linear-gradient(135deg,var(--sky),var(--sky-deep));
-  color:#05091a;border:none;
+  background:linear-gradient(135deg,var(--sky),var(--indigo));
+  color:#062033;border:none;
   padding:9px 18px;border-radius:9px;
   font-size:13px;font-weight:700;transition:var(--t);
 }
@@ -824,7 +834,7 @@ table.data-table tr:last-child td{border-bottom:none}
 .ai-chat-fab{
   position:fixed;bottom:calc(var(--bnh) + 14px);right:16px;z-index:140;
   display:flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,var(--indigo),var(--sky));
+  background:linear-gradient(135deg,var(--sky-deep),var(--sky),var(--indigo));
   border:none;border-radius:28px;
   padding:10px 16px;
   box-shadow:0 4px 24px rgba(56,189,248,.35);
@@ -837,7 +847,7 @@ table.data-table tr:last-child td{border-bottom:none}
 .ai-chat-drawer{
   position:fixed;bottom:0;left:0;right:0;z-index:130;
   height:72vh;max-height:520px;
-  background:rgba(7,12,28,.98);
+  background:rgba(8,24,37,.98);
   border:1px solid var(--b1);border-bottom:none;
   border-radius:20px 20px 0 0;
   backdrop-filter:blur(24px);
@@ -894,7 +904,7 @@ table.data-table tr:last-child td{border-bottom:none}
 .ai-chat-input:focus{border-color:var(--sky);background:var(--card-h)}
 .ai-chat-input::placeholder{color:var(--t3)}
 .ai-chat-send{
-  background:linear-gradient(135deg,var(--indigo),var(--sky));border:none;
+  background:linear-gradient(135deg,var(--sky-deep),var(--sky));border:none;
   color:#fff;width:38px;height:38px;border-radius:10px;
   font-size:15px;display:flex;align-items:center;justify-content:center;
   transition:var(--t);flex-shrink:0;
@@ -911,7 +921,7 @@ table.data-table tr:last-child td{border-bottom:none}
 }
 .ai-memo-modal-overlay.open{display:flex}
 .ai-memo-modal-box{
-  background:#0b1428;border:1px solid rgba(129,140,248,.25);
+  background:#0c1e2d;border:1px solid rgba(94,234,212,.25);
   border-radius:20px 20px 0 0;
   box-shadow:0 -24px 80px rgba(0,0,0,.7);
   width:100%;max-width:100%;max-height:82vh;

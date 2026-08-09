@@ -105,7 +105,7 @@ export async function generateNationalAnalysis(): Promise<string> {
   const system = `You are AirSense IQ, an expert AI environmental analyst specialising in Indian urban air quality. 
 Be concise, data-driven, and actionable. Write in crisp, authoritative English. No markdown, no bullet points — just clear prose.`;
 
-  const user = `Current AQI readings across 7 major Indian cities (${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST):\n${cityLines}\n\nWrite a 3-sentence expert analysis: (1) Overall national air quality status, (2) Most concerning city/trend and why, (3) One specific actionable recommendation for city administrators.`;
+  const user = `Current AQI readings across ${CITIES.length} major Indian cities (${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST):\n${cityLines}\n\nWrite a 3-sentence expert analysis: (1) Overall national air quality status, (2) Most concerning city/trend and why, (3) One specific actionable recommendation for city administrators.`;
 
   return askGroq(system, user, 300);
 }
@@ -161,7 +161,7 @@ export function getChatSystemPrompt(): string {
   return `You are AirSense IQ Assistant, an expert AI on Indian urban air quality. 
 Current live data (${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST): ${cityLines}
 Answer questions about air quality, AQI, health impacts, pollutant sources, and smart city interventions. 
-Be concise (max 3 sentences), factual, and helpful. You have access to CPCB/CAAQMS data for 7 major cities.`;
+Be concise (max 3 sentences), factual, and helpful. You have access to CPCB/CAAQMS data for ${CITIES.length} major cities.`;
 }
 
 export async function sendChatMessage(userMessage: string, history: any[]): Promise<{ response: string; newHistory: any[] }> {
