@@ -131,5 +131,5 @@ This project is for hackathon and demonstration use. Please check the repository
 ---
 
 <p align="center">
-  <em>Built for smarter, cleaner, healthier cities.</em>
+  <em>Built for smarter, cleaner , healthier cities.</em>
 </p>
